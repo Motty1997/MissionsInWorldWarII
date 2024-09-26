@@ -42,7 +42,7 @@ def insert_target(target: Target) -> Result[Target, str]:
             session.rollback()
             return Failure(str(e))
 
-def find_target_by_id(t_id: int) -> Maybe[Target]:
+def find_target_by_id(t_id: int):
     with session_factory() as session:
         return Maybe.from_optional(session.get(Target, t_id))
 

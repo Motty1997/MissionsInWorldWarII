@@ -1,4 +1,3 @@
-from config.base import session_factory
 from controllers.target_controller import target_blueprint
 from models import Target, TargetType, City, Country, Location
 from flask import Flask
