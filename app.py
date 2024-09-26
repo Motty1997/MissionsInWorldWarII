@@ -2,6 +2,7 @@ from controllers.target_controller import target_blueprint
 from models import Target, TargetType, City, Country, Location
 from flask import Flask
 
+
 def create_app():
     flask_app = Flask(__name__)
     return flask_app
