@@ -1,3 +1,5 @@
+from typing import List, Dict
+from sqlalchemy import text
 from returns.maybe import Nothing, Maybe
 from returns.result import Result, Failure, Success
 from sqlalchemy.exc import SQLAlchemyError
@@ -6,6 +8,7 @@ from models import Target
 from repository.city_repository import find_city_by_id
 from repository.location_repository import find_location_by_id
 from repository.target_type_repository import find_target_type_by_id
+from service.target_service import convert_to_json
 
 
 def insert_target(target: Target) -> Result[Target, str]:
@@ -74,3 +77,11 @@ def update_target(t_id: int, target: Target) -> Result[Target, str]:
         except SQLAlchemyError as e:
             session.rollback()
             return Failure(str(e))
+
+
+def find_all_targets() -> List[Dict[str, str]]:
+    with session_factory() as session:
+        result = session.execute(text('SELECT * FROM targets;'))
+        res = result.fetchall()
+        targets = [convert_to_json(Target(**dict(row._mapping))) for row in res]
+        return targets
